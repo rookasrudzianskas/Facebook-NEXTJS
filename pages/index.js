@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Header from "../components/Header";
 
 export default function Home() {
   return (
@@ -10,8 +11,12 @@ export default function Home() {
         <link rel="icon" href="https://www.facebook.com/images/fb_icon_325x325.png" />
       </Head>
 
-        <h1>Facebook in here</h1>
-
+        <Header />
+        <main>
+        {/*    Sidebar */}
+        {/*    Feed*/}
+        {/*    Widgets*/}
+        </main>
     </div>
   )
 }
