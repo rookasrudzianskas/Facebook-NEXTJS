@@ -5,7 +5,9 @@ import {getSession} from "next-auth/client";
 import Login from "../components/Login";
 
 export default function Home({ session }) {
-  if(!session) return <Login />
+  // console.log(session)
+  if(!session) return <Login />;
+
   return (
     <div>
       <Head>

@@ -21,9 +21,9 @@ import { useSession } from "next-auth/client";
 const Header = () => {
 
     const [session] = useSession();
-    console.log(session);
-    console.log(session.user.name);
-    console.log(session.user.image)
+    // console.log(session);
+    // console.log(session.user.name);
+    // console.log(session.user.image)
 
     return (
         <div className="sticky top-0 z-50 bg-white flex items-center p-2 lg:px-5 shadow-md">
@@ -49,6 +49,7 @@ const Header = () => {
             <div className="flex items-center sm:space-x-2 justify-end">
             {/*    PRofile pic in here*/}
 
+                {session ? (
                 <Image
                     onClick={() => signOut()}
                     className="rounded-full cursor-pointer"
@@ -57,6 +58,13 @@ const Header = () => {
                     height="40"
                     layout="fixed"
                 />
+                    ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    )}
 
                 <p className="whitespace-nowrap font-semibold pr-3">Rokas Rudzianskas</p>
 
