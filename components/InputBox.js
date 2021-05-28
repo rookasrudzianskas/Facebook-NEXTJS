@@ -40,7 +40,12 @@ const InputBox = () => {
                 uploadTask.on('state_change', null, error => console.error(error), () => {
                     // when upload completes
                     storage.ref('posts').child(doc.id).getDownloadURL().then(url => {
-                        db.collection('posts')
+                        //adding the download url to the firestore too in here
+                        // to the curret document with id
+                        db.collection('posts').doc(doc.id).set({
+                            postImage: url,
+                            // we do merge to add, meaning update by adding, if we do not do so, so the all doc will be replaced just with img
+                        }, {merge: true})
                     });
                 })
             }
