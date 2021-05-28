@@ -1,5 +1,6 @@
 import React from 'react';
 import Stories from "./Stories";
+import InputBox from "./InputBox";
 
 const Feed = () => {
     return (
@@ -8,6 +9,8 @@ const Feed = () => {
             {/*    Stories*/}
                 <Stories />
             {/*    inputbox*/}
+
+                <InputBox />
 
             {/*    POsts*/}
             </div>
