@@ -4,7 +4,7 @@ import {useSession} from "next-auth/client";
 
 import { EmojiHappyIcon } from "@heroicons/react/outline";
 import { CameraIcon, VideoCameraIcon } from "@heroicons/react/solid";
-import {db} from "../firebase";
+import {db, storage} from "../firebase";
 import firebase from "firebase";
 
 const InputBox = () => {
@@ -27,6 +27,23 @@ const InputBox = () => {
             email: session.user.email,
             image: session.user.image,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        }).then(doc => {
+            if(imageToPost) {
+                // funky upload stuff for the image
+                // we upload to the storage
+                // we create the folder in posts, with the doc id and put the image in here
+                // base64 letters
+                const uploadTask = storage.ref(`posts/${doc.id}`).putString(imageToPost, 'data_url')
+
+                removeImage();
+
+                uploadTask.on('state_change', null, error => console.error(error), () => {
+                    // when upload completes
+                    storage.ref('posts').child(doc.id).getDownloadURL().then(url => {
+                        db.collection('posts')
+                    });
+                })
+            }
         });
 
         inputRef.current.value = "";
@@ -60,6 +77,7 @@ const InputBox = () => {
 
         <div className="bg-white p-2 rounded-2xl shadow-md text-gray-500 font-medium mt-6">
             <div className="flex space-x-4 p-4 items-center">
+                {session ? (
             <Image
                 className="rounded-full"
                 src={session.user.image}
@@ -67,8 +85,16 @@ const InputBox = () => {
                 height={40}
                 layout="fixed"
             />
+                ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+
+                              d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                )}
             <form className="flex flex-1" action="">
-                <input ref={inputRef} className="rounded-full h-12 bg-gray-100 flex-grow px-5 focus:outline-none" type="text" placeholder={`What's on your mind ${session.user.name}?`}/>
+                <input ref={inputRef} className="rounded-full h-12 bg-gray-100 flex-grow px-5 focus:outline-none" type="text" placeholder={`What's on your mind ${session ? session.user.name : "Guest is here"}?`}/>
                 <button type="submit" hidden onClick={sendPost} />
             </form>
 
