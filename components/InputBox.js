@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import Image from "next/image";
 import {useSession} from "next-auth/client";
 
@@ -11,6 +11,8 @@ const InputBox = () => {
 
     const [session, loading] = useSession();
     const inputRef = useRef(null);
+    const filePickerRef = useRef(null);
+    const [imageToPost, setImageToPost] = useState(null);
 
     const sendPost = (e) => {
         e.preventDefault();
@@ -29,7 +31,14 @@ const InputBox = () => {
 
         inputRef.current.value = "";
 
+    };
+
+    const addImageToPost = (e) => {
+        e.preventDefault();
+
     }
+
+
 
     return (
 
@@ -54,9 +63,11 @@ const InputBox = () => {
                     <p className="text-xs sm:text-sm xl:text-base">Live Video</p>
                 </div>
 
-                <div className="inputIcon">
+                {/* if we click on this div. it clicks the file input*/}
+                <div onClick={() => filePickerRef.current.click()} className="inputIcon">
                     <CameraIcon className="h-7 text-green-400" />
                     <p className="text-xs sm:text-sm xl:text-base">Photo/Video</p>
+                    <input ref={filePickerRef} type="file" hidden onChange={addImageToPost}/>
                 </div>
 
                 <div className="inputIcon">
