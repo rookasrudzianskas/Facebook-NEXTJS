@@ -6,8 +6,9 @@ import Login from "../components/Login";
 import Sidebar from "../components/Sidebar";
 import Feed from "../components/Feed";
 import Widgets from "../components/Widgets";
+import {db} from "../firebase";
 
-export default function Home({ session }) {
+export default function Home({ session, posts }) {
   // console.log(session)
   if(!session) return <Login />;
 
@@ -22,7 +23,7 @@ export default function Home({ session }) {
         <Header />
         <main className="flex">
           <Sidebar />
-          <Feed />
+          <Feed posts={posts} />
         {/*    Sidebar */}
         {/*    Feed*/}
         {/*    Widgets*/}
@@ -37,10 +38,22 @@ export async function getServerSideProps(context) {
   // server side rendering shit goes in here
   const session = await getSession(context);
 
+  // prefetching the posts
+  const posts = await db.collection('posts').orderBy('timestamp', 'desc').get();
+
+  const docs = posts.docs.map(post => ({
+    id: post.id,
+    // the rest ofit
+    ...post.data(),
+    timestamp: null,
+  }))
+
   // passing back the detials about the login
   return {
     props: {
       session: session,
+      // posts are prefetched before user enters the website
+      posts: docs,
     }
   }
 }
