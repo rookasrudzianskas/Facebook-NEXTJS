@@ -10,7 +10,7 @@ import {db} from "../firebase";
 
 export default function Home({ session, posts }) {
   // console.log(session)
-  if(!session) return <Login />;
+  // if() return <Login />;
 
   return (
     <div className="h-screen bg-gray-100 overflow-hidden">
