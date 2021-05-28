@@ -35,7 +35,23 @@ const InputBox = () => {
 
     const addImageToPost = (e) => {
         e.preventDefault();
+        const reader = new FileReader();
+        // if the user selected the fire, we read the file
+        if(e.target.files[0]) {
+            // read the file
+            reader.readAsDataURL(e.target.files[0]);
+        }
 
+        // then the reader loads
+        reader.onload = (readerEvent) => {
+            // then it reads the image, we just add it to the state
+            setImageToPost(readerEvent.target.result);
+        };
+    };
+
+    const removeImage = () => {
+        // after done uploading, it resets the image in local here
+        setImageToPost(null);
     }
 
 
@@ -55,6 +71,13 @@ const InputBox = () => {
                 <input ref={inputRef} className="rounded-full h-12 bg-gray-100 flex-grow px-5 focus:outline-none" type="text" placeholder={`What's on your mind ${session.user.name}?`}/>
                 <button type="submit" hidden onClick={sendPost} />
             </form>
+
+                {imageToPost && (
+                    <div onClick={removeImage} className="flex flex-col filter hover:brightness-110 transition duration-150 transform hover:scale-105 cursor-pointer">
+                        <img className="h-10 object-contain" src={imageToPost} alt=""/>
+                        <p className="text-xs text-red-500">Remove</p>
+                    </div>
+                )}
         </div>
 
             <div className="flex justify-evenly p-3 border-t">
