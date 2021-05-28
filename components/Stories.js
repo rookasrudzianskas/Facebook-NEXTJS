@@ -4,7 +4,7 @@ import StoryCard from "./StoryCard";
 
 const stories = [
     {
-        name: "Sonny Sangha",
+        name: "Rookas Rudzianskas",
         src: "https://links.papareact.com/zof",
         profile: "https://links.papareact.com/l4v",
     },
