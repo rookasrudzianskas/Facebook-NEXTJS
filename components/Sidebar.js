@@ -28,7 +28,7 @@ const Sidebar = () => {
                             height={30}
                             className="rounded-full flex items-center space-x-2 p-4 hover:bg-gray-200 rounded-xl cursor-pointer"
                             layout="fixed" />
-                        <p className="font-bold">Rookas Rudzianskas</p>
+                        <p className="hidden sm:inline-flex font-medium">Rookas Rudzianskas</p>
                     </>
                 ) : (
                     <>
@@ -38,7 +38,7 @@ const Sidebar = () => {
 
                                   d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
-                        <p className="font-bold">Rookas Rudzianskas</p>
+                        <p className="hidden sm:inline-flex font-medium">Rookas Rudzianskas</p>
                     </>
 
                     )}
